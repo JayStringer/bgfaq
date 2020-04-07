@@ -1,16 +1,12 @@
 package bgfaq.endpoints
 
 
-
 import bgfaq.models.Game._
-import bgfaq.models.Generic.ErrorMessage
-
 import sttp.model.StatusCode
 import sttp.tapir._
 import sttp.tapir.json.circe._
-
 import io.circe.generic.auto._
-import io.circe.{Decoder, Encoder}
+
 
 object Game {
 

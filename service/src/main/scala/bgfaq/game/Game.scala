@@ -1,6 +1,7 @@
 package bgfaq.game
 
 import bgfaq.models.Game._
+import bgfaq.models.Generic._
 
 import scala.concurrent.Future
 

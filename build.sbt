@@ -19,18 +19,6 @@ lazy val endpoints =
 lazy val service =
   (project in file("service"))
     .settings(libraryDependencies ++= Dependencies.Modules.service)
-//    .enablePlugins(DockerPlugin)
     .dependsOn(endpoints)
 
 lazy val models = (project in file("models"))
-
-
-//lazy val dockerSettings = Seq(
-//  (packageName in Docker) := "bgfaq",
-//  dockerBaseImage := "openjdk:8u191-jre-alpine3.8",
-//  dockerExposedPorts := List(8080)
-//)
-//
-//lazy val
-
-
