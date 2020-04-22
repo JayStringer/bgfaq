@@ -9,6 +9,10 @@ object Dependencies {
       val core = "3.1.1"
     }
 
+    object mongoDB {
+      val scalaDriver = "2.9.0"
+    }
+
     object tapir {
       val core = "0.13.1"
     }
@@ -26,6 +30,10 @@ object Dependencies {
       val core = "org.scalatest" %% "scalatest" % Versions.scalatest.core % "test"
     }
 
+    object mongoDB {
+      val scalaDriver = "org.mongodb.scala" %% "mongo-scala-driver" % Versions.mongoDB.scalaDriver
+    }
+
     object tapir {
       val core = "com.softwaremill.sttp.tapir" %% "tapir-core" % Versions.tapir.core
       val akka = "com.softwaremill.sttp.tapir" %% "tapir-akka-http-server" % Versions.tapir.core
@@ -35,7 +43,7 @@ object Dependencies {
     object circe {
       val all = Seq(
         "io.circe" %% "circe-generic",
-        "io.circe" %% "circe-parser"
+        "io.circe" %% "circe-parser",
       ).map(_ % Versions.circe.core)
     }
   }
@@ -47,11 +55,16 @@ object Dependencies {
     val endpoints = Seq(
       scalatest.core,
       tapir.core,
-      tapir.circe
+      tapir.circe,
     ) ++ circe.all
 
     val service = Seq(
-      tapir.akka
+      tapir.akka,
+      mongoDB.scalaDriver,
+    )
+
+    val models = Seq(
+      mongoDB.scalaDriver
     )
   }
 

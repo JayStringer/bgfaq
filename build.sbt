@@ -21,4 +21,6 @@ lazy val service =
     .settings(libraryDependencies ++= Dependencies.Modules.service)
     .dependsOn(endpoints)
 
-lazy val models = (project in file("models"))
+lazy val models =
+  (project in file("models"))
+    .settings(libraryDependencies ++= Dependencies.Modules.models)

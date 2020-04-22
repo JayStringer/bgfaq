@@ -1,7 +1,7 @@
 package bgfaq.endpoints
 
 
-import bgfaq.models.Game._
+import bgfaq.models.Models._
 import sttp.model.StatusCode
 import sttp.tapir._
 import sttp.tapir.json.circe._
@@ -12,8 +12,8 @@ object Game {
 
   val addGameEndpoint = endpoint.post
     .in("game" / "add")
-    .in(jsonBody[GameModel])
-    .out(statusCode(StatusCode.Ok))
+    .in(jsonBody[Game])
+    .out(statusCode(StatusCode.Created))
     .out(jsonBody[AddSuccess])
     .errorOut(statusCode(StatusCode.BadRequest))
 
