@@ -8,7 +8,8 @@ object Models {
 
   case class FAQ(question: String, answer: String, tags: Option[List[String]])
 
+
   case class AddSuccess(message: String)
-  case class ErrorMessage(message: String)
+  case class ErrorMessage(error: String)
 
 }

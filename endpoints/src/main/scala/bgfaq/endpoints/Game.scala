@@ -16,5 +16,6 @@ object Game {
     .out(statusCode(StatusCode.Created))
     .out(jsonBody[AddSuccess])
     .errorOut(statusCode(StatusCode.BadRequest))
+    .errorOut(jsonBody[ErrorMessage])
 
 }
