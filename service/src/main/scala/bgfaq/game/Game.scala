@@ -1,29 +1,28 @@
 package bgfaq.game
 
 
-import java.util.concurrent.TimeUnit
-
 import bgfaq.models.Models._
 import bgfaq.Database._
-import org.mongodb.scala._
 
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, Future}
-import scala.util.{Failure, Success, Try}
+import org.mongodb.scala._
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.control.NonFatal
+
 
 object Game {
 
   def addGameLogic(game: Game): Future[Either[ErrorMessage, AddSuccess]] = {
 
     val doc: Document = Document(
-      "_id" -> 0,
+      "_id" -> 1,
       "title" -> game.title
     )
 
-    Try(Await.result(collection.insertOne(doc).toFuture(), Duration(3, TimeUnit.SECONDS))) match {
-      case Success(_) => Future.successful(Right(AddSuccess(s"Added ${game.title} to the database")))
-      case Failure(e) => Future.successful(Left(ErrorMessage(s"Unable to add game to database: $e")))
-    }
+    collection.insertOne(doc).toFuture()
+      .map(_ => Right(AddSuccess(s"Added ${game.title} to the database")))
+      .recover {case NonFatal(t) => Left(ErrorMessage(t.getMessage))}
+
   }
 
 }
