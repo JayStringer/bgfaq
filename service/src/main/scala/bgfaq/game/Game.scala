@@ -13,16 +13,9 @@ import scala.util.control.NonFatal
 object Game {
 
   def addGameLogic(game: Game): Future[Either[ErrorMessage, AddSuccess]] = {
-
-    val doc: Document = Document(
-      "_id" -> 1,
-      "title" -> game.title
-    )
-
-    collection.insertOne(doc).toFuture()
+    gameCollection.insertOne(game).toFuture()
       .map(_ => Right(AddSuccess(s"Added ${game.title} to the database")))
       .recover {case NonFatal(t) => Left(ErrorMessage(t.getMessage))}
-
   }
 
 }
