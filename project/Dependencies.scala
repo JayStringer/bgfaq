@@ -10,6 +10,7 @@ object Dependencies {
     }
 
     object mongoDB {
+      val reactive = "0.20.10"
       val scalaDriver = "2.9.0"
     }
 
@@ -31,6 +32,7 @@ object Dependencies {
     }
 
     object mongoDB {
+      val reactive = "org.reactivemongo" %% "reactivemongo" % Versions.mongoDB.reactive
       val scalaDriver = "org.mongodb.scala" %% "mongo-scala-driver" % Versions.mongoDB.scalaDriver
     }
 
@@ -61,11 +63,13 @@ object Dependencies {
     val service = Seq(
       tapir.akka,
       mongoDB.scalaDriver,
+      mongoDB.reactive
     )
 
     val models = Seq(
-      mongoDB.scalaDriver
-    )
+      mongoDB.scalaDriver,
+    ) ++ circe.all
+
   }
 
 }

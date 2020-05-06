@@ -1,20 +1,22 @@
 package bgfaq
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
+import akka.http.scaladsl._
+import akka.http.scaladsl.server.Directives._
 import akka.stream.Materializer
 
+import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 
 
 object Bootstrap extends App {
 
-  implicit val system = ActorSystem("my-system")
-  implicit val materializer = Materializer(system)
-  implicit val executionContext = system.dispatcher
+  implicit val system: ActorSystem = ActorSystem("my-system")
+  implicit val materializer: Materializer = Materializer(system)
+  implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   val bindingFuture = Http().bindAndHandle(
-    Routes.addGameRoute,
+    Routes.addGameRoute ~ Routes.getAllGamesRoute,
     "0.0.0.0",
     8080
   )
