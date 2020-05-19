@@ -35,4 +35,19 @@ object Game {
     .errorOut(statusCode(StatusCode.BadRequest))
     .errorOut(jsonBody[ErrorMessage])
 
+  val getGameEndpoint = endpoint.get
+    .in("game" / path[String])
+    .out(statusCode(StatusCode.Ok))
+    .out(jsonBody[Game])
+    .errorOut(oneOf[ErrorResponse](
+      statusMapping(StatusCode.NotFound, jsonBody[ResourceNotFound]),
+      statusMapping(StatusCode.InternalServerError, jsonBody[ErrorMessage])))
+
+  val getGameQuestion = endpoint.get
+    .in(("game" / path[String]("gameId") / path[String]("faqId")).mapTo(FAQSearch))
+    .out(statusCode(StatusCode.Ok))
+    .out(jsonBody[FAQ])
+    .errorOut(oneOf[ErrorResponse](
+      statusMapping(StatusCode.NotFound, jsonBody[ResourceNotFound]),
+      statusMapping(StatusCode.InternalServerError, jsonBody[ErrorMessage])))
 }

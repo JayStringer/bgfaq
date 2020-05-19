@@ -13,5 +13,7 @@ object Routes {
   val addGameRoute: Route = addGameEndpoint.toRoute(addGame)
   val getAllGamesRoute: Route = getAllGamesEndpoint.toRoute(getAllGames)
   val queryGamesRoute: Route = queryGamesEndpoint.toRoute(queryGames)
+  val getGameRoute: Route = getGameEndpoint.toRoute(getGame)
+  val getQuestionRoute: Route = getGameQuestion.toRoute(getQuestion)
 
 }

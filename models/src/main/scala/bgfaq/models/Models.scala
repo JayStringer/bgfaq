@@ -9,6 +9,7 @@ object Models {
   case class FAQ(id: String, question: String, answer: String, tags: Option[List[String]])
   case class GameList(games: List[Game])
   case class GameQuery(title: Option[String])
+  case class FAQSearch(gameId: String, faqId: String)
   case class QueryResult(results: List[Game])
 
   implicit val encodeGameAsJson: Encoder[Game] = (game: Game) => Json.obj(
@@ -23,11 +24,11 @@ object Models {
     mechanics <- c.downField("mechanics").as[Option[List[String]]]
     entries <- c.downField("entries").as[Option[List[FAQ]]]
   } yield {
-    Game(title, title, mechanics, entries)
+    Game(new ObjectId().toString, title, mechanics, entries)
   }
 
   implicit val encodeFAQAsJson: Encoder[FAQ] = (faq: FAQ) => Json.obj(
-    ("id", Json.fromString(faq.id)),
+    ("id", Json.fromString(faq.id.toString)),
     ("question", Json.fromString(faq.question)),
     ("answer", Json.fromString(faq.answer)),
     ("tags", Json.arr(faq.tags.getOrElse(List.empty).map(Json.fromString):_*))
@@ -41,7 +42,10 @@ object Models {
     FAQ(new ObjectId().toString, question, answer, tags)
   }
 
-  case class AddSuccess(message: String)
-  case class ErrorMessage(error: String)
+  trait ErrorResponse
+
+  case class AddSuccess(message: String, id: String)
+  case class ErrorMessage(error: String) extends ErrorResponse
+  case class ResourceNotFound(error: String) extends ErrorResponse
 
 }

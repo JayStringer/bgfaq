@@ -2,10 +2,11 @@ package bgfaq
 
 import org.mongodb.scala._
 import bgfaq.models.Models._
-
 import org.bson.codecs.configuration.CodecRegistries._
 import org.mongodb.scala.MongoClient.DEFAULT_CODEC_REGISTRY
 import org.mongodb.scala.bson.codecs.Macros._
+import org.mongodb.scala.model.IndexOptions
+import org.mongodb.scala.model.Indexes._
 
 
 object Database {
@@ -23,6 +24,7 @@ object Database {
     .withCodecRegistry(codecRegistry)
 
   val gameCollection: MongoCollection[Game] = database.getCollection("games")
+  gameCollection.createIndex(text("title"), IndexOptions().unique(true)).toFuture()
 
 }
 

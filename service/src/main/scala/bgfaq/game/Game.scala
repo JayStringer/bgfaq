@@ -15,7 +15,7 @@ object Game {
 
   def addGame(game: Game): Future[Either[ErrorMessage, AddSuccess]] = {
     gameCollection.insertOne(game).toFuture()
-      .map(_ => Right(AddSuccess(s"Added ${game.title} to the database")))
+      .map(_ => Right(AddSuccess(s"Added '${game.title}' to the database", game._id)))
       .recover {case NonFatal(t) => Left(ErrorMessage(t.getMessage))}
   }
 
@@ -31,4 +31,25 @@ object Game {
       .recover {case NonFatal(t) => Left(ErrorMessage(t.getMessage))}
   }
 
+  def getGame(input: String): Future[Either[ErrorResponse, Game]] = {
+    gameCollection.find(equal("_id", input)).first().toFuture()
+      .map {
+        case null => Left(ResourceNotFound(s"Unable to find game with id '${input}'"))
+        case g: Game => Right(g)
+      }
+      .recover {case NonFatal(t) => Left(ErrorMessage(t.getMessage))}
+  }
+
+  def getQuestion(input: FAQSearch): Future[Either[ErrorResponse, FAQ]] = {
+    gameCollection.find(equal("_id", input.gameId)).first().toFuture()
+      .map {
+        case null => Left(ResourceNotFound(s"Unable to find game with id '${input.gameId}'"))
+        case g: Game =>
+          g.entries.getOrElse(List.empty).find(_.id == input.faqId) match {
+            case Some(f: FAQ) => Right(f)
+            case None => Left(ResourceNotFound(s"Question with id ${input.faqId} not found for ${g.title}"))
+          }
+      }
+      .recover {case NonFatal(t) => Left(ErrorMessage(t.getMessage))}
+  }
 }

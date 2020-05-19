@@ -18,7 +18,9 @@ object Bootstrap extends App {
   val bindingFuture = Http().bindAndHandle(
     Routes.addGameRoute
       ~ Routes.getAllGamesRoute
-      ~ Routes.queryGamesRoute,
+      ~ Routes.queryGamesRoute
+      ~ Routes.getGameRoute
+      ~ Routes.getQuestionRoute,
     "0.0.0.0",
     8080
   )
