@@ -8,6 +8,8 @@ object Models {
   case class Game(_id: String, title: String, mechanics: Option[List[String]], entries: Option[List[FAQ]])
   case class FAQ(id: String, question: String, answer: String, tags: Option[List[String]])
   case class GameList(games: List[Game])
+  case class GameQuery(title: Option[String])
+  case class QueryResult(results: List[Game])
 
   implicit val encodeGameAsJson: Encoder[Game] = (game: Game) => Json.obj(
       ("_id", Json.fromString(game._id)),

@@ -16,7 +16,9 @@ object Bootstrap extends App {
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
   val bindingFuture = Http().bindAndHandle(
-    Routes.addGameRoute ~ Routes.getAllGamesRoute,
+    Routes.addGameRoute
+      ~ Routes.getAllGamesRoute
+      ~ Routes.queryGamesRoute,
     "0.0.0.0",
     8080
   )
