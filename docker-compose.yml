@@ -1,0 +1,19 @@
+version: '3'
+
+
+services:
+  mongo-db:
+    image: leafney/alpine-mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./sandbox/mongodb/data:/data:z
+
+  bgfaq-server:
+    image: service:0.1.0-SNAPSHOT
+    environment:
+      MONGODB_IP_ADDRESS: mongo-db
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo-db

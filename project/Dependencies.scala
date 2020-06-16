@@ -22,6 +22,10 @@ object Dependencies {
       val core = "0.13.0"
     }
 
+    object pureconf {
+      val core = "0.12.3"
+    }
+
   }
 
 
@@ -48,6 +52,10 @@ object Dependencies {
         "io.circe" %% "circe-parser",
       ).map(_ % Versions.circe.core)
     }
+
+    object pureconf {
+      val core = "com.github.pureconfig" %% "pureconfig" % Versions.pureconf.core
+    }
   }
 
 
@@ -63,7 +71,8 @@ object Dependencies {
     val service = Seq(
       tapir.akka,
       mongoDB.scalaDriver,
-      mongoDB.reactive
+      mongoDB.reactive,
+      pureconf.core,
     )
 
     val models = Seq(
